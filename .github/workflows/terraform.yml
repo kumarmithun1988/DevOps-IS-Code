@@ -16,10 +16,10 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ cf50604d-41fe-4339-8f9e-69279db5840f}}
-          tenant-id: ${{ 29e86e0d-dcaa-4009-8df8-cb8d0cc55150 }}
-          subscription-id: ${{ 6c058af8-517f-4141-88fb-6caec86dfeee }}
-          client-secret: ${{ ef83bfa4-10f6-442a-a8bb-37bb74278bbb }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Show Azure Account
         run: az account show
