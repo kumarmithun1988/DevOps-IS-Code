@@ -32,7 +32,7 @@ jobs:
         run: |
           az login \
             --service-principal \
-            --username "106294ed-87a1-4882-8746-f461f9a58f64" \
+            --username "cf50604d-41fe-4339-8f9e-69279db5840f" \
             --password "tDZ8Q~MXlHc76hz8MYefV1pRKT-qv-rHRQPWIaVD" \
             --tenant "29e86e0d-dcaa-4009-8df8-cb8d0cc55150"
 
