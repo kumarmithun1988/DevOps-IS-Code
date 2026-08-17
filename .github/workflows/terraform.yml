@@ -5,12 +5,11 @@ on:
     branches:
       - "**"
 
-  pull_request:  
+  pull_request:
     branches:
       - main
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -32,10 +31,10 @@ jobs:
       - name: Azure Login
         run: |
           az login \
-          --service-principal \ 
-          --username "106294ed-87a1-4882-8746-f461f9a58f64" \
-          --password "tDZ8Q~MXlHc76hz8MYefV1pRKT-qv-rHRQPWIaVD" \
-          --tenant "29e86e0d-dcaa-4009-8df8-cb8d0cc55150"
+            --service-principal \
+            --username "106294ed-87a1-4882-8746-f461f9a58f64" \
+            --password "tDZ8Q~MXlHc76hz8MYefV1pRKT-qv-rHRQPWIaVD" \
+            --tenant "29e86e0d-dcaa-4009-8df8-cb8d0cc55150"
 
       - name: Set Azure Subscription
         run: |
@@ -57,4 +56,50 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-    
+  terraform-apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+
+    needs: terraform-plan
+
+    # Apply ONLY after push to main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    defaults:
+      run:
+        working-directory: environments/preprod
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Azure Login
+        run: |
+          az login \
+            --service-principal \
+            --username "106294ed-87a1-4882-8746-f461f9a58f64" \
+            --password "tDZ8Q~MXlHc76hz8MYefV1pRKT-qv-rHRQPWIaVD" \
+            --tenant "29e86e0d-dcaa-4009-8df8-cb8d0cc55150"
+
+      - name: Set Azure Subscription
+        run: |
+          az account set \
+            --subscription "6c058af8-517f-4141-88fb-6caec86dfeee"
+
+      - name: Check Azure Login
+        run: az account show
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
