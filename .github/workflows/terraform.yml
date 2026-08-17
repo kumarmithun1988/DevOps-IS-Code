@@ -30,16 +30,17 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Azure Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          az login \
+          --service-principal \ 
+          --username "106294ed-87a1-4882-8746-f461f9a58f64" \
+          --password "tDZ8Q~MXlHc76hz8MYefV1pRKT-qv-rHRQPWIaVD" \
+          --tenant "29e86e0d-dcaa-4009-8df8-cb8d0cc55150"
 
       - name: Set Azure Subscription
         run: |
           az account set \
-            --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+            --subscription "6c058af8-517f-4141-88fb-6caec86dfeee"
 
       - name: Check Azure Login
         run: az account show
