@@ -38,7 +38,7 @@ jobs:
       - name: Set Azure Subscription
         run: |
           az account set \
-            --subscription "bc9d2c5e-f99f-4142-8f22-8f6dae37180d"
+            --subscription "6c058af8-517f-4141-88fb-6caec86dfeee"
 
       - name: Check Azure Login
         run: az account show
